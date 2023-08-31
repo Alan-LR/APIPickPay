@@ -1,10 +1,7 @@
 package com.picpaysimplificado.domain.transacoes;
 
 import com.picpaysimplificado.domain.usuarios.Usuario;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,6 +12,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
+//Cria um construtor vázio
+@NoArgsConstructor
 @EqualsAndHashCode(of="id")
 public class Transacoes {
 
@@ -29,6 +28,7 @@ public class Transacoes {
     @JoinColumn(name="lojista_id")
     private Usuario lojista;
     private LocalDateTime dataTransacao;
+
 
 
 }

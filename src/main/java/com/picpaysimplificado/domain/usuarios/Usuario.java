@@ -1,21 +1,20 @@
 package com.picpaysimplificado.domain.usuarios;
 
 import com.picpaysimplificado.domain.transacoes.Transacoes;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import com.picpaysimplificado.dtos.UsuarioDTO;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity(name="usuarios")
-@Table(name="usuarios")
+@Entity(name = "usuarios")
+@Table(name = "usuarios")
 @Getter
 @Setter
 //cria um construtor com todos os parametros da classe
 @AllArgsConstructor
-@EqualsAndHashCode(of="id")
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Usuario {
     @Id
     //gera de forma incremental, 1,2,3,4...
@@ -32,11 +31,16 @@ public class Usuario {
     private BigDecimal balanco;
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
-//    @OneToMany
-//    private Transacoes transacao;
 
-
-
+    public Usuario(UsuarioDTO data) {
+        this.primeiroNome = data.getPrimeiroNome();
+        this.segundoNome = data.getSegundoNome();
+        this.documento = data.getDocumento();
+        this.email = data.getEmail();
+        this.senha = data.getSenha();
+        this.balanco = data.getBalanco();
+        this.tipoUsuario = data.getTipoUsuario();
+    }
 
 
 }
