@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 //cria um construtor com todos os parametros da classe
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @EqualsAndHashCode(of = "id")
 public class Usuario {
     @Id

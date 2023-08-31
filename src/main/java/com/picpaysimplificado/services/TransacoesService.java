@@ -3,6 +3,7 @@ package com.picpaysimplificado.services;
 import com.picpaysimplificado.dtos.TransacaoDTO;
 import com.picpaysimplificado.domain.transacoes.Transacoes;
 import com.picpaysimplificado.domain.usuarios.Usuario;
+import com.picpaysimplificado.dtos.TransacaoReturnDTO;
 import com.picpaysimplificado.repositories.TransacoesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class TransacoesService {
@@ -65,4 +68,25 @@ public class TransacoesService {
             return "Autorizado".equalsIgnoreCase(mensagem);
         } else return false;
     }
+
+    public List<TransacaoReturnDTO> todasTransacoes() {
+        List<Transacoes> listaT = transacoesRepository.findAll();
+        List<TransacaoReturnDTO> result = listaT.stream()
+                .map(transacao -> {
+                    TransacaoReturnDTO obj = new TransacaoReturnDTO();
+                    obj.setTransacaoId(transacao.getId());
+                    obj.setValor(transacao.getValor());
+                    obj.setCliente(transacao.getCliente().getPrimeiroNome() + " " + transacao.getCliente().getSegundoNome());
+                    obj.setLojista(transacao.getLojista().getPrimeiroNome() + " " + transacao.getLojista().getSegundoNome());
+
+                    return obj;
+                })
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
+//    public Transacoes buscarComId(Long id) {
+//        return this.transacoesRepository.findById(id);
+//    }
 }

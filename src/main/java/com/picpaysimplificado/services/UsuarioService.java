@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,5 +59,17 @@ public class UsuarioService {
                 })
                 .collect(Collectors.toList());
         return usuariosReturnDTOS;
+    }
+
+    public UsuarioReturnDTO findUserByDocumento(String documento) {
+        Optional<Usuario> user = usuariosRepository.findUserByDocumento(documento);
+        UsuarioReturnDTO result = new UsuarioReturnDTO();
+        result.setPrimeiroNome(user.get().getPrimeiroNome());
+        result.setSegundoNome(user.get().getSegundoNome());
+        result.setEmail(user.get().getEmail());
+        result.setDocumento(user.get().getDocumento());
+        result.setBalanco(user.get().getBalanco());
+        result.setTipoUsuario(user.get().getTipoUsuario());
+        return result;
     }
 }
