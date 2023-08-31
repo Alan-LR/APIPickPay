@@ -3,12 +3,14 @@ package com.picpaysimplificado.services;
 import com.picpaysimplificado.domain.usuarios.TipoUsuario;
 import com.picpaysimplificado.domain.usuarios.Usuario;
 import com.picpaysimplificado.dtos.UsuarioDTO;
+import com.picpaysimplificado.dtos.UsuarioReturnDTO;
 import com.picpaysimplificado.repositories.UsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -40,7 +42,21 @@ public class UsuarioService {
         return novoUsuario;
     }
 
-    public List<Usuario> findAll() {
-        return this.usuariosRepository.findAll();
+    //Retornando todos usuários, SOMENTE informações que queremos
+    public List<UsuarioReturnDTO> pegarTodosUsuarios() {
+        List<Usuario> usuarios = usuariosRepository.findAll();
+        List<UsuarioReturnDTO> usuariosReturnDTOS = usuarios.stream()
+                .map(usuario -> {
+                    UsuarioReturnDTO user = new UsuarioReturnDTO();
+                    user.setPrimeiroNome(usuario.getPrimeiroNome());
+                    user.setSegundoNome(usuario.getSegundoNome());
+                    user.setDocumento(usuario.getDocumento());
+                    user.setEmail(usuario.getEmail());
+                    user.setTipoUsuario(usuario.getTipoUsuario());
+                    user.setBalanco(usuario.getBalanco());
+                    return user;
+                })
+                .collect(Collectors.toList());
+        return usuariosReturnDTOS;
     }
 }

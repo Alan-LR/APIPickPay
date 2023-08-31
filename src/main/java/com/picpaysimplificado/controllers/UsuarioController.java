@@ -2,6 +2,7 @@ package com.picpaysimplificado.controllers;
 
 import com.picpaysimplificado.domain.usuarios.Usuario;
 import com.picpaysimplificado.dtos.UsuarioDTO;
+import com.picpaysimplificado.dtos.UsuarioReturnDTO;
 import com.picpaysimplificado.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,8 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> pegarTodosUsuarios() {
-        List<Usuario> usuarios = usuarioService.findAll();
+    public ResponseEntity<List<UsuarioReturnDTO>> pegarTodosUsuarios() {
+        List<UsuarioReturnDTO> usuarios = usuarioService.pegarTodosUsuarios();
         return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 
